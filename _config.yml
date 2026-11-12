@@ -1,0 +1,25 @@
+# Configuración de GitHub Pages (Jekyll)
+# El sitio es un único index.html estático: Jekyll lo sirve tal cual
+# porque no lleva "front matter" (--- al inicio).
+
+title: Temario Permiso de Armas · D / E / AEM
+description: >-
+  Temario teórico, tests por tema y simulacro de examen para las licencias
+  de armas D, E y AEM (Guardia Civil).
+lang: es
+url: "https://urkiaristu.github.io"
+baseurl: "/PermisoArmasDE"
+
+# Archivos que Jekyll NO debe procesar ni publicar
+exclude:
+  - README.md
+  - LICENSE
+  - .gitignore
+  - scripts/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/
+
+# Sin tema ni plugins: el HTML ya incluye todo su estilo
+plugins: []
