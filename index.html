@@ -79,6 +79,38 @@
       z-index: 50
     }
 
+    .sc-widget {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 80
+    }
+
+    .sc-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--bg2);
+      color: var(--tx);
+      border: 1px solid var(--bd);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      transition: all .2s
+    }
+
+    .sc-btn:hover {
+      border-color: var(--ac);
+      color: var(--ac);
+      transform: translateY(-2px)
+    }
+
     header h1 {
       font-size: 1rem;
       margin: 0;
@@ -706,6 +738,10 @@
     <nav class="pager" id="pager"></nav>
   </main>
   <div id="lb"><img alt=""></div>
+  <div class="sc-widget">
+    <button class="sc-btn" id="scDn" title="Ir abajo">↓</button>
+    <button class="sc-btn" id="scUp" title="Ir arriba">↑</button>
+  </div>
   <template id="store">
     <section id="s-intro">
       <p> <b> <span>TEMARIO OBJETO DE ESTUDIO PARA LA OBTENCIÓN DEL PERMISO DE ARMAS</span></b><span>: </span> </p>
@@ -2024,8 +2060,11 @@
         let id = location.hash.slice(2); if (!id && S.last) id = S.last;
         cur = pageOf(id) || PAGES[0]; S.last = cur.id; save();
         ({ th: theory, qz: (v, p) => quizPage(v, QUIZ[p.n], { n: p.n, title: p.t }), ex: examPage, rv: rvPage, st: statsPage })[cur.k](v, cur);
-        const i = PAGES.indexOf(cur), pv = PAGES[i - 1], nx = PAGES[i + 1];
-        $('#pager').innerHTML = (pv ? `<a href="#/${pv.id}"><small>← Anterior</small>${esc(pv.t)}</a>` : '<span></span>') + (nx ? `<a href="#/${nx.id}"><small>Siguiente →</small>${esc(nx.t)}</a>` : '');
+        const thPages = PAGES.filter(p => p.k === 'th');
+        const ti = thPages.findIndex(p => p.id === cur.id);
+        const tpv = ti > 0 ? thPages[ti - 1] : null;
+        const tnx = ti < thPages.length - 1 ? thPages[ti + 1] : null;
+        $('#pager').innerHTML = cur.k === 'th' ? ((tpv ? `<a href="#/${tpv.id}"><small>← Anterior</small>${esc(tpv.t)}</a>` : '<span></span>') + (tnx ? `<a href="#/${tnx.id}"><small>Siguiente →</small>${esc(tnx.t)}</a>` : '')) : '';
         buildSide(); if (window.innerWidth <= 960) document.body.classList.remove('open'); document.title = cur.t + ' · Permiso de Armas';
         if (!JUMP) scrollTo(0, 0); onScroll()
       }
@@ -2048,7 +2087,17 @@
         v.onclick = e => {
           const h = e.target.closest('[data-h]'); if (h) { e.preventDefault(); $('#' + h.dataset.h).scrollIntoView() }
           const u = e.target.closest('u'); if (u && S.recall) u.classList.toggle('show');
-          if (e.target.id === 'rd') { S.read[p.id] = 1; save(); e.target.textContent = '✓ Leído'; buildSide() }
+          const rdBtn = e.target.closest('#rd');
+          if (rdBtn) {
+            if (S.read[p.id]) {
+              delete S.read[p.id];
+              rdBtn.textContent = 'Marcar como leído';
+            } else {
+              S.read[p.id] = 1;
+              rdBtn.textContent = '✓ Leído';
+            }
+            save(); buildSide();
+          }
         };
         if (JUMP && JUMP.k != null) { const el = $$('p', A)[JUMP.k]; if (el) { setTimeout(() => { el.scrollIntoView({ block: 'center' }); el.classList.add('flash'); markIn(el, JUMP.term) }, 60) } JUMP = null }
       }
@@ -2151,6 +2200,8 @@
       $('#rc').onclick = () => { S.recall = !S.recall; save(); applyPrefs() };
       $('#fm').onclick = () => document.body.classList.toggle('focus'); $('#bg').onclick = () => document.body.classList.toggle('open'); $('#pr').onclick = () => print();
       $('#lb').onclick = () => $('#lb').style.display = 'none';
+      $('#scUp').onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+      $('#scDn').onclick = () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
       addEventListener('scroll', onScroll, { passive: true }); addEventListener('hashchange', () => { if (!JUMP) route(); else route() });
       applyPrefs(); route();
     })();
