@@ -1,5 +1,7 @@
 # 🎯 Temario Permiso de Armas · D / E / AEM
 
+![Logo Permiso de Armas](assets/logos/logo.png)
+
 ![Licencia: MIT](https://img.shields.io/badge/licencia-MIT-green.svg)
 ![Sitio estático](https://img.shields.io/badge/sitio-est%C3%A1tico-blue.svg)
 ![Sin dependencias](https://img.shields.io/badge/dependencias-0-brightgreen.svg)
@@ -28,7 +30,8 @@ Es un único `index.html` autocontenido: sin frameworks, sin build y sin servido
 PermisoArmasDE/
 ├── index.html          # Aplicación completa (HTML + CSS + JS + banco de preguntas)
 ├── assets/
-│   └── img/            # Imágenes del temario (referenciadas desde index.html)
+│   ├── img/            # Imágenes del temario 
+│   └── logos/          # Logos e iconos de la aplicación
 ├── _config.yml         # Configuración de GitHub Pages
 ├── .gitignore
 ├── LICENSE             # MIT
