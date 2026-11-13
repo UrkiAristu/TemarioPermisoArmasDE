@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Temario Permiso de Armas · D / E / AEM</title>
+  <link rel="icon" type="image/x-icon" href="assets/logos/logo.ico">
+  <link rel="icon" type="image/png" href="assets/logos/logo.png">
   <style>
     :root {
       --fs: 18px;
@@ -115,7 +117,16 @@
       font-size: 1rem;
       margin: 0;
       color: var(--ac);
-      white-space: nowrap
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-logo {
+      height: 28px;
+      width: auto;
+      object-fit: contain;
     }
 
     .ib {
@@ -719,7 +730,7 @@
 <body data-theme="dark">
   <header>
     <button class="ib" id="bg" title="Menú">☰</button>
-    <h1>🎯 Permiso de Armas</h1>
+    <h1><img src="assets/logos/logo.png" alt="Logo" class="header-logo"> Permiso de Armas</h1>
     <div id="sw"><input id="q" type="search" placeholder="Buscar en teoría y preguntas…  ( / )" autocomplete="off">
       <div id="sr"></div>
     </div>
